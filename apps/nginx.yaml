@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nginx
+  namespace: argocd
+spec:
+  destination:
+    namespace: nginx
+    server: "https://kubernetes.default.svc"
+  project: default
+  source:
+    chart: nginx-ingress-controller
+    helm:
+      valueFiles:
+        - values.yaml
+    repoURL: "https://charts.bitnami.com/bitnami"
+    targetRevision: 7.6.21
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
